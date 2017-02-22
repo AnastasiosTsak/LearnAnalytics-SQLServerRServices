@@ -1,9 +1,9 @@
 SQL Server R Services Workshop
 ======================================
 
-Join the chat at [https://gitter.im/sqlrservices](https://gitter.im/sqlrservices).
-
 Welcome to the SQL Server R Services Repository. You can find the latest materials from the workshop here. This course is intended for data scientists and SQL analysts interested in the R Services feature that was released with SQL Server 2016. We review the two [common architectures](https://msdn.microsoft.com/en-us/library/mt604885.aspx) that R and SQL Server use to communicate with each other. We see how we can do in-database analytics directly from our favorite R IDE (Visual Studio with RTVS or RStudio). We see how Microsoft R's `RevoScaleR` package can help us scale the analytics when the data is large. We examine different use cases and in the process of implementing them we learn about some best practices to follow to take full advantage of both SQL Server and R.
+
+You will find all the rendered course content in `student_resources`. If you wish to run the code you can open the Rmd files in `instructor_resources` in your R IDE.
 
 ## Class Links
 
