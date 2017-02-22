@@ -48,11 +48,11 @@ Download and install one of the following (technically optional but highly recom
  - Visual Studio with [R Tools](https://aka.ms/rtvs-current)
  - [RStudio Desktop](http://www.rstudio.com/products/rstudio/download/)
 
-Since the release of Microsoft R Server version 9 and until it comes bundled with the SQL R Services release, we need to upgrade our instance of R Services manually. If you wish to have SQL Server running on your personal laptops (not required) to run these examples, here's instructions to do so:
+Since the release of Microsoft R Server version 9 and until it comes bundled with the SQL R Services release, we need to upgrade our instance of R Services manually. If you wish to have SQL Server running on your personal laptops (not required) to run these examples, here's instructions to do so. You will need to have an MSDN account to download and install the following items. Links are not provided.
 
- - Install SQL Server 2016 SP1
- - Install Cumulative updates 1 by running `SQLServer2016-KB3208177-x64.exe`
- - Install Microsoft R Server by running `en_r_server_901_for_windows_x64_9649035.exe`
+ - Install **SQL Server 2016 SP1**
+ - Install **Cumulative Updates 1 (KB3208177)** by running `SQLServer2016-KB3208177-x64.exe`
+ - Install **Microsoft R Server for Windows** by running `en_r_server_901_for_windows_x64_9649035.exe`
  - Bind the R server instance to the R Services instance by running cmd as administator and doing the following:
 
     ```
