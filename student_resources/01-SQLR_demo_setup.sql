@@ -22,6 +22,7 @@ GO
 -- CREATE LOGIN [SERVERNAME\SQLRUserGroup] FROM WINDOWS
 
 -- create credentials for a user to log into R
+
 USE master; 
 GO  
 CREATE DATABASE RDB;
@@ -31,7 +32,8 @@ USE [master]
 GO
 CREATE LOGIN [ruser] WITH PASSWORD=N'ruser', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
 GO
-USE [RDB]
+
+USE RDB
 GO
 CREATE USER [ruser] FOR LOGIN [ruser]
 ALTER ROLE [db_datareader] ADD MEMBER [ruser]

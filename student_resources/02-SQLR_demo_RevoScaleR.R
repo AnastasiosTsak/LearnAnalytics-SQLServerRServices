@@ -32,11 +32,12 @@ library(ggplot2)
 # Let's begin by pointing to some data on our machine and taking it into SQL Server. For the most part, data is already sitting in a SQL Server database ready for us to read from, so this is not something that we would do regularly, but it's useful when we want to take a smaller data into SQL Server (assuming we have the permission to do that).
 
 # Point to a text file (CSV) on the local file system
-sample_data_path <- "C:/Program Files/Microsoft/R Client/R_SERVER/library/RevoScaleR/SampleData/"
+sample_data_path <- "C:/Program Files/Microsoft/R Server/R_SERVER/library/RevoScaleR/SampleData/"
 csvFraudDS <- RxTextData(file.path(sample_data_path, 'ccFraudSmall.csv'))
+file.exists(csvFraudDS@file)
 
 # Create a variable for the SQL Server Connection String
-sqlConnString <- "Driver=SQL Server;Server=MININT-VRFQ1OD;Database=RDB;Uid=ruser;Pwd=ruser"
+sqlConnString <- "Driver=SQL Server;Server=MININT-1NA9NJM;Database=RDB;Uid=ruser;Pwd=ruser"
 sqlRowsPerRead <- 100000 # number of rows processed during each iteration
 sqlTable <- "FraudSmall" # name of resulting SQL table
 
@@ -145,19 +146,6 @@ sumOut <- rxSummary(formula = ~ gender + balance + numTrans + numIntlTrans + cre
 sumOut
 
 # We can use the rxQuantile function to compute percentiles for the numeric columns in the data and plot them in R using ggplot2.
-
-qt <- data.frame(percentile = seq(0, 100, by = 1))
-num_vars <- c('balance', 'numTrans', 'numIntlTrans', 'creditLine')
-qt[ , num_vars] <- lapply(num_vars, function(var) rxQuantile(var, sqlFraudDS, probs = qt$percentile / 100))
-library(ggplot2)
-q1 <- ggplot(aes(x = percentile, y = balance), data = qt) + geom_line()
-q2 <- ggplot(aes(x = percentile, y = numTrans), data = qt) + geom_line()
-q3 <- ggplot(aes(x = percentile, y = numIntlTrans), data = qt) + geom_line()
-q4 <- ggplot(aes(x = percentile, y = creditLine), data = qt) + geom_line()
-
-# Place the four plots on a 2x2 grid
-library(gridExtra)
-grid.arrange(q1, q2, q3, q4, ncol = 2)
 
 # Compute the correlation between the four numeric columns
 rxCor(~ balance + numTrans + numIntlTrans + creditLine, data = sqlFraudDS)
@@ -307,8 +295,8 @@ rxExec(t_test_bw_states, data = sqlFraudDS, left = "CA", right = "FL", execObjec
 
 # Find all the combinations of pairs of states and run the above function on them
 xy <- combn(important_states, 2)
-t_test_res <- rxExec(t_test_bw_states, data = sqlFraudDS, left = rxElemArg(xy[1, ]), right = rxElemArg(xy[2, ]), execObjects = "stateAbb")
-t_test_res
+# t_test_res <- rxExec(t_test_bw_states, data = sqlFraudDS, left = rxElemArg(xy[1, ]), right = rxElemArg(xy[2, ]), execObjects = "stateAbb")
+# t_test_res
 
 ###########################################################
 ## Part 7: Modeling and scoring example
@@ -337,9 +325,9 @@ ggplot(aes(x = balance, y = fraudRisk_Pred, col = as.factor(creditLine)), data =
 
 # How do we persist this model?
 # The not-SQL way would be to save it on the local file system
-save(modlogit, file = 'C:/Users/sethmott/OneDrive/Shared/SQL+R/modlogit.RData')
+save(modlogit, file = 'modlogit.RData')
 # To retrieve it we can then use the load object
-load(file = 'C:/Users/sethmott/OneDrive/Shared/SQL+R/modlogit.RData')
+load(file = 'modlogit.RData')
 
 # Using `rxExec` we could save the file remotely, but we would need to have write permission to the file system of the VM host (probably a bad idea)
 # So here's the right way of doing it:

@@ -12,7 +12,7 @@ EXEC  sp_execute_external_script
 	,@script = N'
         image_file = tempfile()
         jpeg(filename = image_file, width = 500, height = 500)
-        hist(fraudDS$balance)
+        hist(fraudDS$balance, col = "light blue")
         dev.off()
         OutputDataset <- data.frame(data = readBin(file(image_file, "rb"), what = raw(), n = 1e6))'
 	,@input_data_1 = N'SELECT balance FROM RDB.dbo.FraudSmall;'
@@ -24,7 +24,7 @@ SELECT top 1 plot FROM RDB.dbo.plots;
 
 -- We can now go to SSRS to serve this plot
 -- Just open up Report Builder, create a new data source pointing to the above data, create a new dataset with the above query, insert a new image in the canvas that points to this data and renders into JPEG.
-
+-- MININT-1NA9NJM
 
 -- Our second example is to score a dataset with a model we built in R
 
@@ -50,7 +50,7 @@ BEGIN
 DECLARE @lmodel2 varbinary(max) = (SELECT TOP 1 model FROM RDB.dbo.models);
 EXEC sp_execute_external_script @language = N'R',
 @script = N'
-source(''pathsomeRscript.R'')
+# source(''preloadRcode.R'')
 mod <- unserialize(as.raw(model))
 print(summary(mod))
 OutputDataSet <- rxPredict(modelObject = mod, data = InputDataSet, outData = NULL,
