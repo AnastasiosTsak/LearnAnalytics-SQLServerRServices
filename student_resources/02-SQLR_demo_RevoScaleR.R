@@ -37,7 +37,7 @@ csvFraudDS <- RxTextData(file.path(sample_data_path, 'ccFraudSmall.csv'))
 file.exists(csvFraudDS@file)
 
 # Create a variable for the SQL Server Connection String
-sqlConnString <- "Driver=SQL Server;Server=MININT-1NA9NJM;Database=RDB;Uid=ruser;Pwd=ruser"
+sqlConnString <- "Driver=SQL Server;Server=52.178.183.180;Database=RDB;Uid=ruser;Pwd=ruser"
 sqlRowsPerRead <- 100000 # number of rows processed during each iteration
 sqlTable <- "FraudSmall" # name of resulting SQL table
 
@@ -171,6 +171,7 @@ fraudSample <- rxDataStep(sqlFraudDS,
                          transforms = list(u = runif(.rxNumRows)),
                          rowSelection = (u < .1))
 # Plot a scatterplot matrix of these four columns for a sample of the data
+num_vars <- c("balance", "numTrans", "numIntlTrans", "creditLine")
 pairs(fraudSample[, num_vars])
 
 # Take a random sample of the data, but sample the data in SQL and bring the sample into R (more efficient):
@@ -295,8 +296,8 @@ rxExec(t_test_bw_states, data = sqlFraudDS, left = "CA", right = "FL", execObjec
 
 # Find all the combinations of pairs of states and run the above function on them
 xy <- combn(important_states, 2)
-# t_test_res <- rxExec(t_test_bw_states, data = sqlFraudDS, left = rxElemArg(xy[1, ]), right = rxElemArg(xy[2, ]), execObjects = "stateAbb")
-# t_test_res
+t_test_res <- rxExec(t_test_bw_states, data = sqlFraudDS, left = rxElemArg(xy[1, ]), right = rxElemArg(xy[2, ]), execObjects = "stateAbb")
+t_test_res
 
 ###########################################################
 ## Part 7: Modeling and scoring example

@@ -15,7 +15,9 @@ GO
 
 -- this could be useful for debugging purposes
 EXEC sp_execute_external_script  @language =N'R',  
-@script=N'print(.libPaths())'
+@script=N'print(.libPaths())
+          print(R.version)
+          print(Revo.version)'
 GO
 
 -- ignore this line unless you are using the Data Science VM 
