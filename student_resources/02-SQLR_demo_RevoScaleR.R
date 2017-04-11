@@ -37,7 +37,7 @@ csvFraudDS <- RxTextData(file.path(sample_data_path, 'ccFraudSmall.csv'))
 file.exists(csvFraudDS@file)
 
 # Create a variable for the SQL Server Connection String
-sqlConnString <- "Driver=SQL Server;Server=52.178.183.180;Database=RDB;Uid=ruser;Pwd=ruser"
+sqlConnString <- "Driver=SQL Server;Server=.;Database=RDB;Uid=ruser;Pwd=ruser"
 sqlRowsPerRead <- 100000 # number of rows processed during each iteration
 sqlTable <- "FraudSmall" # name of resulting SQL table
 
